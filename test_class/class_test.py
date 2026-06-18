@@ -1,4 +1,11 @@
-from main import Product, Category
+from module_14.models import Product, Category
+
+import pytest
+
+@pytest.fixture(autouse=True)
+def reset_category_counters():
+    Category.category_count = 0
+    Category.product_count = 0
 
 
 def test_product_init():
