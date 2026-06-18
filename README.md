@@ -15,7 +15,7 @@
 ##Установка и запуск
 1. Клонируйте репозиторий:
 '''bash
-git clone 
+git clone https://github.com/zaripova96leysan/module_4_homework.git
 
 2. Установка зависимости 
 poetry install
