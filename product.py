@@ -1,18 +1,30 @@
 class Product:
+    """Товар с приватной ценой, геттером и сеттером."""
+    total_products = 0
+
     def __init__(self, name, description, price, quantity):
         self.name = name
         self.description = description
         self.__price = price
         self.quantity = quantity
+        Product.total_products += 1
 
     @classmethod
-    def new_product(cls, data: dict):
-        return cls(
-            name=data["name"],
-            description=data["description"],
-            price=data["price"],
-            quantity=data["quantity"]
-        )
+    def new_product(cls, data: dict, existing_products=None):
+        name = data["name"]
+        description = data.get("description", "")
+        price = data["price"]
+        quantity = data["quantity"]
+
+        if existing_products is not None:
+            for prod in existing_products:
+                if prod.name.lower() == name.lower():
+                    prod.quantity += quantity
+                    if price > prod.price:
+                        prod.price = price
+                    return prod
+
+        return cls(name, description, price, quantity)
 
     @property
     def price(self):
@@ -22,8 +34,15 @@ class Product:
     def price(self, value):
         if value <= 0:
             print("Цена не должна быть нулевая или отрицательная")
-        else:
-            self.__price = value
+            return
+
+        if value < self.__price:
+            answer = input(f"Цена снижается с {self.__price} до {value}. Подтвердите (y/n): ")
+            if answer.lower() != 'y':
+                print("Изменение цены отменено")
+                return
+
+        self.__price = value
 
 
 class Category:
