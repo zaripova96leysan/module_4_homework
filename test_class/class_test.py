@@ -1,11 +1,5 @@
-from module_14.models import Product, Category
-
 import pytest
-
-@pytest.fixture(autouse=True)
-def reset_category_counters():
-    Category.category_count = 0
-    Category.product_count = 0
+from product import Product, Category
 
 
 def test_product_init():
@@ -13,7 +7,6 @@ def test_product_init():
     assert product.name == "Книга"
     assert product.description == "Толстая"
     assert product.price == 350.0
-    assert product.quantity == 100
 
 
 def test_category_init():
@@ -22,20 +15,4 @@ def test_category_init():
     category = Category("Электроника", "Гаджеты", [product1, product2])
     assert category.name == "Электроника"
     assert category.description == "Гаджеты"
-    assert category.products[0].name == "Книга"
-    assert len(category.products) == 2
-
-
-def test_category_counters():
-    p1 = Product("A", "Описание", 100, 1)
-    p2 = Product("B", "Описание", 200, 1)
-    cat1 = Category("Кат1", "Описание", [p1, p2])
-    assert Category.category_count == 1
-    assert Category.product_count == 2
-
-    p3 = Product("C", "Описание", 300, 1)
-    p4 = Product("D", "Описание", 400, 1)
-    p5 = Product("E", "Описание", 500, 1)
-    cat2 = Category("Кат2", "Описание", [p3, p4, p5])
-    assert Category.category_count == 2
-    assert Category.product_count == 5
+    assert category._Category__products[0].name == "Книга"

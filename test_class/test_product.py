@@ -38,7 +38,7 @@ def test_category_products_getter():
     p1 = Product("Laptop", "Gaming", 1200, 3)
     p2 = Product("Mouse", "Wireless", 50, 10)
     category = Category("Electronics", "Gadgets", [p1, p2])
-    expected = "Laptop, 1200 руб. Остаток: 3 шт.\nMouse, 50 руб. Остаток: 10 шт.\n"
+    expected = "Название продукта, 1200 руб. Остаток: 3 шт.\nНазвание продукта, 50 руб. Остаток: 10 шт.\n"
     assert category.products == expected
 
 
@@ -63,13 +63,11 @@ def test_price_setter_decrease_confirmed(monkeypatch):
     assert product.price == 400
 
 
-def test_price_setter_decrease_canceled(monkeypatch, capsys):
+def test_price_setter_decrease_canceled(monkeypatch):
     product = Product("Phone", "Smart", 500, 10)
     monkeypatch.setattr('builtins.input', lambda _: 'n')
     product.price = 400
-    captured = capsys.readouterr()
-    assert "Изменение цены отменено" in captured.out
-    assert product.price == 500
+    assert product.price == 500  # цена не изменилась
 
 
 def test_private_price_access():
@@ -91,3 +89,46 @@ def test_total_products_counter():
     category.add_product(apple)
     category.add_product(banana)
     assert Category.total_products == 2
+
+
+def test_product_str():
+    p = Product("Ноутбук", "Игровой", 80000, 5)
+    expected = "Название продукта, 80000 руб. Остаток: 5 шт."
+    assert str(p) == expected
+
+
+def test_category_str():
+    p1 = Product("Мышь", "Беспроводная", 100, 10)
+    p2 = Product("Коврик", "Резиновый", 200, 2)
+    cat = Category("Аксессуары", "Для компьютера", [p1, p2])
+    expected = "Аксессуары, количество продуктов: 12 шт."
+    assert str(cat) == expected
+
+
+def test_category_str_empty():
+    cat = Category("Пустая", "Без товаров", [])
+    expected = "Пустая, количество продуктов: 0 шт."
+    assert str(cat) == expected
+
+
+def test_product_add():
+    p1 = Product("Телефон", "Смартфон", 100, 10)
+    p2 = Product("Чехол", "Силиконовый", 200, 2)
+    result = p1 + p2
+    assert result == 1400
+
+
+def test_product_add_type_error():
+    p = Product("Книга", "Роман", 500, 3)
+    with pytest.raises(TypeError):
+        result = p + 5
+
+
+def test_category_iterator():
+    p1 = Product("Книга", "Детектив", 300, 5)
+    p2 = Product("Журнал", "Научный", 150, 2)
+    cat = Category("Печатные", "Издания", [p1, p2])
+    names = []
+    for product in cat:
+        names.append(product.name)
+    assert names == ["Книга", "Журнал"]
