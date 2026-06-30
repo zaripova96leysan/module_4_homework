@@ -18,7 +18,7 @@ class Product:
             print("Цена не должна быть нулевая или отрицательная")
             return
 
-        if value < self.__price:  # если цена понижается
+        if value < self.__price:
             answer = input(f"Цена снижается с {self.__price} до {value}. Подтвердите (y/n): ")
             if answer.lower() != 'y':
                 print("Изменение цены отменено")
