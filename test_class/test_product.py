@@ -38,7 +38,7 @@ def test_category_products_getter():
     p1 = Product("Laptop", "Gaming", 1200, 3)
     p2 = Product("Mouse", "Wireless", 50, 10)
     category = Category("Electronics", "Gadgets", [p1, p2])
-    expected = "Название продукта, 1200 руб. Остаток: 3 шт.\nНазвание продукта, 50 руб. Остаток: 10 шт.\n"
+    expected = "Laptop, 1200 руб. Остаток: 3 шт.\nMouse, 50 руб. Остаток: 10 шт.\n"
     assert category.products == expected
 
 
@@ -67,7 +67,7 @@ def test_price_setter_decrease_canceled(monkeypatch):
     product = Product("Phone", "Smart", 500, 10)
     monkeypatch.setattr('builtins.input', lambda _: 'n')
     product.price = 400
-    assert product.price == 500  # цена не изменилась
+    assert product.price == 500
 
 
 def test_private_price_access():
@@ -93,7 +93,7 @@ def test_total_products_counter():
 
 def test_product_str():
     p = Product("Ноутбук", "Игровой", 80000, 5)
-    expected = "Название продукта, 80000 руб. Остаток: 5 шт."
+    expected = "Ноутбук, 80000 руб. Остаток: 5 шт."
     assert str(p) == expected
 
 

@@ -44,7 +44,7 @@ class Product:
         return cls(name, description, price, quantity)
 
     def __str__(self):
-        return f"Название продукта, {self.price} руб. Остаток: {self.quantity} шт."
+        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
     def __add__(self, other):
         if not isinstance(other, Product):
