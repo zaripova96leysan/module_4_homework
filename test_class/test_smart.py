@@ -1,7 +1,5 @@
 import pytest
-# ЗАМЕНИ 'main' НА ИМЯ ФАЙЛА, ГДЕ ЛЕЖАТ КЛАССЫ (например, products, module_14, etc.)
-# Судя по логам, у тебя есть product.py — скорее всего, надо from product import ...
-from product import Product, Smartphone, LawnGrass, Category
+from product import Product, Category, Smartphone, LawnGrass
 
 def test_smartphone_creation():
     s = Smartphone(

@@ -19,8 +19,10 @@ class Product:
             return
 
         if value < self.__price:
-            answer = input(f"Цена снижается с {self.__price} до {value}. Подтвердите (y/n): ")
-            if answer.lower() != 'y':
+            answer = input(
+                f"Цена снижается с {self.__price} до {value}. Подтвердите (y/n): "
+            )
+            if answer.lower() != "y":
                 print("Изменение цены отменено")
                 return
 
@@ -47,8 +49,8 @@ class Product:
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
     def __add__(self, other):
-        if not isinstance(other, Product):
-            raise TypeError("Можно складывать только объекты Product")
+        if type(self) is not type(other):
+            raise TypeError("Нельзя складывать товары разных классов")
         return self.price * self.quantity + other.price * other.quantity
 
 
@@ -67,6 +69,10 @@ class Category:
         Category.total_products += len(self.__products)
 
     def add_product(self, product):
+        if not isinstance(product, Product):
+            raise TypeError(
+                "Можно добавлять только объекты Product или его наследников"
+            )
         self.__products.append(product)
         Category.product_count += 1
         Category.total_products += 1
@@ -103,9 +109,12 @@ class CategoryIterator:
         self.index += 1
         return product
 
+
 class Smartphone(Product):
-    def __init__(self, name, price, quantity, efficiency, model, memory, color, description):
-        super().__init__(name, price, quantity, description)
+    def __init__(
+        self, name, description, price, quantity, efficiency, model, memory, color
+    ):
+        super().__init__(name, description, price, quantity)
         self.efficiency = efficiency
         self.model = model
         self.memory = memory
@@ -113,18 +122,11 @@ class Smartphone(Product):
 
 
 class LawnGrass(Product):
-    def __init__(self, name, price, quantity, country, germination_period, color, description):
-        super().__init__(name, price, quantity, description)
+    def __init__(
+        self, name, description, price, quantity, country, germination_period, color
+    ):
+        super().__init__(name, description, price, quantity)
         self.country = country
         self.germination_period = germination_period
         self.color = color
 
-    def __add__(self, other):
-        if type(self) is not type(other):
-            raise TypeError("Нельзя складывать товары разных классов")
-        return self.price * self.quantity + other.price * other.quantity
-
-    def add_product(self, product):
-        if not isinstance(product, Product):
-            raise TypeError("Можно добавлять только объекты Product или его наследников")
-        self.products.append(product)
