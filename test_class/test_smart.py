@@ -1,6 +1,7 @@
 import pytest
 from product import Product, Category, Smartphone, LawnGrass
 
+
 def test_smartphone_creation():
     s = Smartphone(
         name="iPhone",
@@ -10,7 +11,7 @@ def test_smartphone_creation():
         model="15 Pro",
         memory=256,
         color="black",
-        description="Крутой смартфон"  # <-- добавили
+        description="Крутой смартфон"
     )
     assert s.name == "iPhone"
     assert s.model == "15 Pro"
@@ -26,7 +27,7 @@ def test_lawn_grass_creation():
         country="Россия",
         germination_period=14,
         color="green",
-        description="Хорошая трава"  # <-- добавили
+        description="Хорошая трава"
     )
     assert g.country == "Россия"
     assert g.germination_period == 14
@@ -36,7 +37,7 @@ def test_add_same_class_works():
     s1 = Smartphone("Phone A", 100, 1, 80, "X1", 64, "red", "Первый телефон")
     s2 = Smartphone("Phone B", 200, 2, 90, "Y2", 128, "blue", "Второй телефон")
     result = s1 + s2
-    assert result == 100 * 1 + 200 * 2  # 500
+    assert result == 100 * 1 + 200 * 2
 
 
 def test_add_different_classes_raises_error():

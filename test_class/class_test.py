@@ -1,5 +1,5 @@
 import pytest
-from product import Product, Category
+from product import Product, Category, Smartphone, LawnGrass
 
 
 def test_product_init():
@@ -13,6 +13,9 @@ def test_category_init():
     product1 = Product("Книга", "Толстая", 350.0, 100)
     product2 = Product("Смартфон", "Android", 50000.0, 5)
     category = Category("Электроника", "Гаджеты", [product1, product2])
+
     assert category.name == "Электроника"
     assert category.description == "Гаджеты"
-    assert category._Category__products[0].name == "Книга"
+
+    first_product_name = category._Category__products[0].name
+    assert first_product_name == "Книга"

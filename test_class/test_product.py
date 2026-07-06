@@ -121,7 +121,7 @@ def test_product_add():
 def test_product_add_type_error():
     p = Product("Книга", "Роман", 500, 3)
     with pytest.raises(TypeError):
-        result = p + 5
+        p + 5
 
 
 def test_category_iterator():
