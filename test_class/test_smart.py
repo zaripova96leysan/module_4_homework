@@ -1,5 +1,5 @@
 import pytest
-from product import Product, Category, Smartphone, LawnGrass
+from module_14.product import Product, Category, Smartphone, LawnGrass
 
 
 def test_smartphone_creation():

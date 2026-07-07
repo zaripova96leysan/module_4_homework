@@ -1,5 +1,5 @@
 import pytest
-from product import Product, Category
+from module_14.product import Product, Category
 
 
 @pytest.fixture(autouse=True)

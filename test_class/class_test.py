@@ -1,5 +1,4 @@
-import pytest
-from product import Product, Category, Smartphone, LawnGrass
+from module_14.product import Product, Category
 
 
 def test_product_init():
