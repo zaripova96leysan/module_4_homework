@@ -1,16 +1,39 @@
-class Product:
-    total_products = 0
+from abc import ABC, abstractmethod
 
-    def __init__(self, name, description, price, quantity):
+
+class BaseProduct(ABC):
+    def __init__(self, name, description, price, quantity, **kwargs):
         self.name = name
         self.description = description
-        self.__price = price
+        self._price = price
         self.quantity = quantity
+        self._extra = kwargs
+
+    @abstractmethod
+    def get_info(self):
+        pass
+
+    @abstractmethod
+    def calculate_metric(self):
+        pass
+
+
+class LoggingMixin:
+    def __init__(self, *args, **kwargs):
+        print(f"[LOG] Создаётся {self.__class__.__name__}, args={args}, kwargs={kwargs}")
+        super().__init__(*args, **kwargs)
+
+
+class Product(LoggingMixin, BaseProduct):
+    total_products = 0
+
+    def __init__(self, name, description, price, quantity, **kwargs):
+        super().__init__(name, description, price, quantity, **kwargs)
         Product.total_products += 1
 
     @property
     def price(self):
-        return self.__price
+        return self._price
 
     @price.setter
     def price(self, value):
@@ -18,15 +41,15 @@ class Product:
             print("Цена не должна быть нулевая или отрицательная")
             return
 
-        if value < self.__price:
+        if value < self._price:
             answer = input(
-                f"Цена снижается с {self.__price} до {value}. Подтвердите (y/n): "
+                f"Цена снижается с {self._price} до {value}. Подтвердите (y/n): "
             )
             if answer.lower() != "y":
                 print("Изменение цены отменено")
                 return
 
-        self.__price = value
+        self._price = value
 
     @classmethod
     def new_product(cls, data, existing_products=None):
@@ -52,6 +75,49 @@ class Product:
         if type(self) is not type(other):
             raise TypeError("Нельзя складывать товары разных классов")
         return self.price * self.quantity + other.price * other.quantity
+
+    def get_info(self):
+        return str(self)
+
+    def calculate_metric(self):
+        return self.price * self.quantity
+
+
+class Smartphone(Product):
+    def __init__(
+        self, name, description, price, quantity, efficiency, model, memory, color
+    ):
+        super().__init__(name, description, price, quantity)
+        self.efficiency = efficiency
+        self.model = model
+        self.memory = memory
+        self.color = color
+
+
+class LawnGrass(Product):
+    def __init__(
+        self, name, description, price, quantity, country, germination_period, color
+    ):
+        super().__init__(name, description, price, quantity)
+        self.country = country
+        self.germination_period = germination_period
+        self.color = color
+
+
+class CategoryIterator:
+    def __init__(self, products):
+        self.products = products
+        self.index = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.index >= len(self.products):
+            raise StopIteration
+        product = self.products[self.index]
+        self.index += 1
+        return product
 
 
 class Category:
@@ -92,40 +158,3 @@ class Category:
 
     def __iter__(self):
         return CategoryIterator(self.__products)
-
-
-class CategoryIterator:
-    def __init__(self, products):
-        self.products = products
-        self.index = 0
-
-    def __iter__(self):
-        return self
-
-    def __next__(self):
-        if self.index >= len(self.products):
-            raise StopIteration
-        product = self.products[self.index]
-        self.index += 1
-        return product
-
-
-class Smartphone(Product):
-    def __init__(
-        self, name, description, price, quantity, efficiency, model, memory, color
-    ):
-        super().__init__(name, description, price, quantity)
-        self.efficiency = efficiency
-        self.model = model
-        self.memory = memory
-        self.color = color
-
-
-class LawnGrass(Product):
-    def __init__(
-        self, name, description, price, quantity, country, germination_period, color
-    ):
-        super().__init__(name, description, price, quantity)
-        self.country = country
-        self.germination_period = germination_period
-        self.color = color
