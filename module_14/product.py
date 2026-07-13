@@ -28,6 +28,8 @@ class Product(LoggingMixin, BaseProduct):
     total_products = 0
 
     def __init__(self, name, description, price, quantity, **kwargs):
+        if quantity == 0:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен")
         super().__init__(name, description, price, quantity, **kwargs)
         Product.total_products += 1
 
