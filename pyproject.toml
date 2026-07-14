@@ -1,0 +1,28 @@
+[project]
+name = "module-14-1"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "user_l",email = "zaripova_leysan@mail.ru"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+]
+
+[tool.poetry]
+name = "module-14-1"
+version = "0.1.0"
+packages = [{include = "module_14"}]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "pytest-cov (>=7.1.0,<8.0.0)"
+]
+
+[tool.pytest.ini_options]
+testpaths = ["test_class"]
