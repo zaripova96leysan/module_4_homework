@@ -160,3 +160,14 @@ class Category:
 
     def __iter__(self):
         return CategoryIterator(self.__products)
+
+    def average_price(self):
+        total_price = 0
+        for product in self.__products:
+            total_price += product.price
+        count = len(self.__products)
+        try:
+            result = total_price / count
+        except ZeroDivisionError:
+            result = 0
+        return result
